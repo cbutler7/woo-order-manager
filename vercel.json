@@ -1,30 +1,24 @@
 {
   "version": 2,
-  "rewrites": [
-    {
-      "source": "/api/:path*",
-      "destination": "/api/:path*" // This routes all /api calls to the /api directory
-    }
-  ],
   "builds": [
     {
       "src": "frontend/package.json",
       "use": "@vercel/static-build",
-      "dest": "frontend"
+      "dest": "frontend/build"
     },
     {
-      "src": "api/**/*.js",        // Changed to all files in api folder
+      "src": "backend/index.js",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "^/static/(.*)$",    // Static files in the public directory
-      "dest": "/frontend/public/$1"
+      "src": "/api/(.*)",
+      "dest": "/backend/routes/$1"   // Assumes your API endpoints are in routes
     },
     {
-      "src": ".*",                 // Catch-all for the frontend
-      "dest": "/frontend/index.html"
+      "src": "/(.*)",
+      "dest": "/frontend/build/index.html"
     }
   ]
 }
