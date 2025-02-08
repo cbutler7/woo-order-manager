@@ -2,23 +2,14 @@
   "version": 2,
   "builds": [
     {
-      "src": "frontend/package.json",  // or "package.json" if frontend isn't in its own folder
-      "use": "@vercel/ncc",
-      "dest": "frontend/build"
+      "src": "frontend/package.json",
+      "use": "@vercel/static-build"
     },
-    {
-      "src": "backend/index.js",
-      "use": "@vercel/node"  //  For Node.js backend
-    }
-  ],
+  ],  // <-- ERROR: Trailing comma
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"   // Adjust as needed based on how backend API endpoints are served
-    },
-    {
       "src": "/(.*)",
-      "dest": "/frontend/build/index.html" // Or just "/index.html" depending on folder structure
+      "dest": "/frontend/build/index.html"
     }
   ]
 }
