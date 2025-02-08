@@ -1,15 +1,30 @@
 {
   "version": 2,
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*" // This routes all /api calls to the /api directory
+    }
+  ],
   "builds": [
     {
       "src": "frontend/package.json",
-      "use": "@vercel/static-build"
+      "use": "@vercel/static-build",
+      "dest": "frontend"
     },
-  ],  // <-- ERROR: Trailing comma
+    {
+      "src": "api/**/*.js",        // Changed to all files in api folder
+      "use": "@vercel/node"
+    }
+  ],
   "routes": [
     {
-      "src": "/(.*)",
-      "dest": "/frontend/build/index.html"
+      "src": "^/static/(.*)$",    // Static files in the public directory
+      "dest": "/frontend/public/$1"
+    },
+    {
+      "src": ".*",                 // Catch-all for the frontend
+      "dest": "/frontend/index.html"
     }
   ]
 }
